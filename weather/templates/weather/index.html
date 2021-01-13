@@ -25,7 +25,7 @@
             <h1>Погода в вашем городе</h1>
             <form action="" method="post">
                 {%csrf_token%}
-                <label class="fs-5" for="city">Город</label>
+                <label class="fs-5" for="city" id="city">Город</label>
                 {{form.name}}
                 <input type="submit" name="send" value="Узнать" class="mt-2 btn btn-danger">
             </form>
@@ -33,11 +33,8 @@
         <div class="col-5 offset-1">
             <h1>Информация</h1>
 
-            {% for info in all_info%}
+            {% for info in all_info %}
             <div class="alert alert-primary">
-                <button  style="position: absolute; top:5px; right:5px; margin:0; padding:5px 3px;" type="submit"
-                        class="btn btn-danger px-2">X
-                </button>
                 <div class="row">
                     <div class="col-7">
                         <b>Город:</b> {{info.city}} <br>
@@ -51,6 +48,7 @@
                              alt="weather_condition_icon"
                              class="img-thumbnail">
                     </div>
+                    <td><a class="href_delete mt-3" href="delete/{{info.id}}" style="text-decoration: none;">Удалить</a></td>
                 </div>
             </div>
             {%endfor%}

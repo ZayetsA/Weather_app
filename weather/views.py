@@ -19,8 +19,12 @@ def index(request):
     all_cities = []
 
     for city in cities:
-        res = requests.get(url.format(city.name)).json()
+        try:
+            res = requests.get(url.format(city.name)).json()
+        except res.DoesNotExist:
+            return HttpResponseNotFound("<h2>Person not found</h2>")
         city_info = {
+            'id': city.id,
             'city': city.name,
             'temp': res["main"]["temp"],
             'humidity': res["main"]["humidity"],
@@ -37,3 +41,10 @@ def index(request):
     return render(request, 'weather/index.html', context)
 
 
+def delete(request, id):
+    try:
+        city = City.objects.get(id=id)
+        city.delete()
+        return HttpResponseRedirect("/")
+    except City.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
